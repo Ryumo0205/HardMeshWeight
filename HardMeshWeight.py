@@ -1,4 +1,5 @@
 import pymel.core as pm
+import maya.mel as mel
 
 vtx_all_inf_dict = {}  # 每個vtx包含所有影響權重值的字典
 vtx_final_inf_dict = {}  # 過濾完後最後需要被處裡的字典
@@ -10,9 +11,9 @@ selected_skin = pm.ls(get_history, type="skinCluster")  # 取得skinCluster名�
 ##===========檢測區==========##
 # print("UI level:"inf_name_text_edit)
 # print("History:", get_history)
-print("get skin:", selected_skin[0])
+# print("get skin:", selected_skin[0])
 # print("Influences:",vertex_inf)
-print("Now select:", selected_point)
+# print("Now select:", selected_point)
 ##===========檢測區==========##
 
 ##=========獲取乾淨權重字典區塊=============##
@@ -48,18 +49,19 @@ for vtx_key in vtx_all_inf_dict.items():  # 訪問每一個vtx
 
 
 keisan_dict = {}    #統計每種[影響名稱,數值]的組合出現了幾次
+vtx_name_list = []  #判斷有問題的vtx名稱的列表
+set_name_list = []  #暫存名稱列表
+set_times_list = [] #暫存"次數"列表
 
 for i in vtx_final_inf_dict.items():
-    x = str(i[1])
+    x = str(i[1])   # <<<=========================================想辦法從vtx_final_inf_dict取出重複最多的組合,填到最後要處裡的目標
+    print(i[1]) 
     if x in keisan_dict :
         keisan_dict[str(i[1])] += 1
     else:
         keisan_dict[str(i[1])] = 1
 
 # 找出最大值
-
-set_name_list = []  #暫存名稱列表55
-set_times_list = [] #暫存"次數"列表
 
 for z in sorted(keisan_dict.items()):
     #print("keisan_dict:", z[0])
@@ -71,11 +73,22 @@ max_value_index = set_times_list.index(max_value)
 
 get_max_set = set_name_list[max_value_index]
 print("Max set:",get_max_set)    #最多次重複的組合
-print("Max set:",type(get_max_set))
 
+#   搜尋所有vertex找出不符合的vertex
 for n in vtx_final_inf_dict.items():
-    print(n[1])
+    y = str(n[0]) 
     if str(n[1]) == get_max_set:
-        print("Match!")
+        pass
     else:
-        print("Out!")
+        vtx_name_list.append(y)
+        print("wrong inf set:",n[1])
+
+if vtx_name_list == []:
+    print("All Clear ! ")
+else:    
+    print("Wrong vtx:",vtx_name_list)
+    pm.select(vtx_name_list)    #在視窗中選擇並顯示有問題的點
+
+# 修正有問題的vertex
+#pm.skinPercent(selected_skin[0], vtx_name_list, transformValue=[target, 0])  # 執行權重處理,刪除該點內不該存在的權重
+
