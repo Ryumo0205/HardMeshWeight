@@ -1,4 +1,6 @@
+import operator
 import pymel.core as pm
+
 
 vtx_all_inf_dict = {}  # 每個vtx包含所有影響權重值的字典
 vtx_clear_inf_dict = {}  # 過濾完後最後需要被處裡的字典
@@ -59,7 +61,9 @@ for i in vtx_clear_inf_dict.items():
     else:
         count_dict[str(i[1])] = 1
 
-get_max_set = max(count_dict)   #返回"次數"最多的key
+# 得到值最大的key
+get_max_set = max(count_dict.items(), key=operator.itemgetter(1))[0] 
+print("get_max_set:",get_max_set,type(get_max_set))
 
 #   搜尋所有vertex找出不符合的vertex
 for n in vtx_clear_inf_dict.items():
@@ -80,7 +84,7 @@ else:
     for g in vtx_clear_inf_dict.items():
         m = str(g[1])  
         if m == get_max_set:    #將取到的組合轉成字串跟get_max_set比對
-            final_tuple = g[1]  #直接將比對成功的組合取出
+            final_tuple = g[1]  #直接將比對成功的組合取出(g[1]是含多個權重值組合tuple的list)
             break
         else:
             pass
