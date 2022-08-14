@@ -56,7 +56,7 @@ vtx_all_inf_dict = {
     }
 ```
 
-再來是過濾資訊，我不需要weight為0的資訊，所以我將數值0以外的資訊放到另一個字典，成為真正所需資訊的字典**vtx_clear_inf_dict**
+再來是過濾資訊，我不需要weight為0的資訊，所以我將數值0以外的資訊放到另一個字典，成為真正所需資訊的字典`vtx_clear_inf_dict`
 
 ## 找出哪個權重值組合是正確的
 
@@ -79,7 +79,7 @@ count_dict = {
 
 ## 找出需要被修正的vertex
 
-因為上面使用`max()`得出的組合，資料型態為字串，為了比對，需要將vtx_clear_inf_dict儲存的**vertex上含有的權重組合**轉成字串，再與get_max_set比對
+因為上面使用`max()`得出的組合，資料型態為字串，為了比對，需要將`vtx_clear_inf_dict`儲存的**vertex上含有的權重組合**轉成字串，再與字串變數`get_max_set`比對
 
 只要遇到比對成功的組合，就直接從vtx_clear_inf_dict取出該組合，然後`break`
 
@@ -99,6 +99,6 @@ count_dict = {
 ```python
 '{"Top":0.0564,"L_Arm":0.5561,"Chest":0.0,"Spine1":0.0,"Spine2":0.0,...}:48'
 ###轉變回字典
-{"Top":0.0564,"L_Arm":0.5561,"Chest":0.0,"Spine1":0.0,"Spine2":0.0,...}':48
+{{"Top":0.0564,"L_Arm":0.5561,"Chest":0.0,"Spine1":0.0,"Spine2":0.0,...} : 48}
 ```
 
