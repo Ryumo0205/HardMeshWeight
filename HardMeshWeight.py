@@ -50,8 +50,6 @@ for vtx in vtx_all_inf_dict.items():  # 訪問字典裡的每一個vtx
 
 count_dict = {}    #統計每種[影響名稱,數值]的組合出現了幾次
 vtx_name_list = []  #判斷有問題的vtx名稱的列表
-set_name_list = []  #暫存組合名稱列表
-set_times_list = [] #暫存"次數"列表
 final_tuple = None    #存放最後執行指令需要的tuple組合
 
 for i in vtx_clear_inf_dict.items():
