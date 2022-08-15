@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import operator
 import pymel.core as pm
 
