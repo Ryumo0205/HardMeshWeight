@@ -1,16 +1,24 @@
 import pymel.core as pm
 
-
 ui_file_path = pm.internalVar(usd=True) + r"Test/HardMeshWeight_UI.ui"
 print(ui_file_path)
 MainUI = pm.loadUI(uiFile=ui_file_path)
 print(MainUI)
 
-#x = pm.text( MainUI + r"|State_label",edit=True)
+State_label = pm.text(MainUI + r"|gridLayout|State_label")
+print(State_label)
 
 
-
-def fix_weight_cmd( ignoreInputs ):
+def fix_weight_cmd(ignoreInputs):
     print("state_edit")
-    pm.text( MainUI + r"|State_label",edit=True,label="OK!")
-pm.showWindow( MainUI )
+    # pm.scriptJob(killAll=True)
+    pm.text(MainUI + r"|gridLayout|State_label", edit=True,
+            label="State:Success!", bgc=[0, 1, 0])
+
+
+pm.scriptJob(ct=["SomethingSelected", 'pm.text( MainUI + r"|gridLayout|State_label",edit=True,label="State:None",bgc=[0.27,0.27,0.27])'],
+             parent=MainUI, permanent=True, killWithScene=True)
+
+
+print(type(MainUI))
+pm.showWindow(MainUI)
