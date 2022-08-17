@@ -4,7 +4,7 @@ import operator
 import pymel.core as pm
 
 
-ui_file_path = pm.internalVar(usd=True) + r"Test/HardMeshWeight_UI.ui"
+ui_file_path = pm.internalVar(usd=True) + r"HardMeshWeight/HardMeshWeight_UI.ui"
 print(ui_file_path)
 MainUI = pm.loadUI(uiFile=ui_file_path)
 print(MainUI)
@@ -14,12 +14,11 @@ State_label = pm.text(MainUI + r"|gridLayout|State_label")
 
 
 def fix_weight_cmd(ignoreInputs):
-    pm.text(MainUI + r"|gridLayout|State_label", edit=True,
-            label="State:Success!", bgc=[0, 1, 0])
     fix_weight()
 
 def fix_weight():
     print("Go!")
+
     vtx_all_inf_dict = {}  # 每個vtx包含所有影響權重值的字典
     vtx_clear_inf_dict = {}  # 過濾完後最後需要被處裡的字典
     count_dict = {}    #統計每種[影響名稱,數值]的組合出現了幾次
@@ -59,7 +58,7 @@ def fix_weight():
                 temp_list.append(single_inf)
         vtx_clear_inf_dict[vtx[0]] = temp_list  # 將該vtx過濾出的乾淨權重列表加入新的字典
 
-    ##=========獲取乾淨權重字典區塊=============##
+    ##===========================================##
 
     for i in vtx_clear_inf_dict.items():
         x = str(i[1]) 
@@ -82,7 +81,10 @@ def fix_weight():
 
     #如果list是空的就不執行修改
     if vtx_name_list == []:
-        print("All Clear ! ")
+        #   顯示無修正的結果
+        print("No fixed vertices ! ")
+        pm.text(MainUI + r"|gridLayout|State_label", edit=True,
+            label="State:No fixed vertices", bgc=[1, 1, 0])
     else:    
         print("Wrong vtx:",vtx_name_list)
         pm.select(vtx_name_list)    #在視窗中選擇到並顯示有問題的點
@@ -95,13 +97,12 @@ def fix_weight():
                 break
             else:
                 pass
-        print(final_tuple)
+        print("final_inf:",final_tuple)
 
-        # 把有問題的vertex的權重值改成final_tuple
         # 此指令可以一次修改多個vertex,transformValue可接受一個內含多個tuple(influenceName,weight)組成的list
         pm.skinPercent(selected_skin[0], vtx_name_list, transformValue=final_tuple)
-
-        print(vtx_all_inf_dict)
+        pm.text(MainUI + r"|gridLayout|State_label", edit=True,
+            label="State:Success!", bgc=[0, 1, 0])
 
 
 pm.scriptJob(ct=["SomethingSelected", 'pm.text( MainUI + r"|gridLayout|State_label",edit=True,label="State:None",bgc=[0.27,0.27,0.27])'],
