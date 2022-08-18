@@ -3,6 +3,7 @@
 import operator
 import pymel.core as pm
 
+#待修正:頂點選擇太多會效能不佳,嘗試簡化資料結構
 
 ui_file_path = pm.internalVar(usd=True) + r"HardMeshWeight/HardMeshWeight_UI.ui"
 print(ui_file_path)
