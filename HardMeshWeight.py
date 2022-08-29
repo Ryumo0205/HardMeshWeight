@@ -9,7 +9,7 @@ ui_file_path = pm.internalVar(usd=True) + r"HardMeshWeight/HardMeshWeight_UI.ui"
 print(ui_file_path)
 MainUI = pm.loadUI(uiFile=ui_file_path)
 print(MainUI)
-State_label = pm.text(MainUI + r"|gridLayout|State_label")
+State_label = pm.text(MainUI + r"|gridLayout|State_label",edit=True)
 loading_bar = pm.progressBar(MainUI + r"|loading_bar",edit=True,progress=0)
 loading_value = 0
 
