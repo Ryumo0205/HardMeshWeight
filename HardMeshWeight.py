@@ -116,16 +116,16 @@ def fix_weight():
 
 
 MainUI = pm.loadUI(uiFile=ui_file_path)
-print(MainUI)
+
+
+State_label = pm.text(MainUI + r"|gridLayout|State_label",edit=True)
+loading_value = 0
+loading_bar = pm.progressBar(MainUI + r"|loading_bar",edit=True,progress=0)
 
 pm.scriptJob(ct=["SomethingSelected", 'pm.text( MainUI + r"|gridLayout|State_label",edit=True,label="State:None",bgc=[0.27,0.27,0.27])'],
              parent=MainUI, permanent=True, killWithScene=True) #監聽是否選到新物件,選到新物件就更新UI顯示
 pm.scriptJob(ct=["SomethingSelected", 'pm.progressBar(MainUI + r"|loading_bar",edit=True,progress=0)'],
              parent=MainUI, permanent=True, killWithScene=True)
-
-State_label = pm.text(MainUI + r"|gridLayout|State_label",edit=True)
-loading_value = 0
-loading_bar = pm.progressBar(MainUI + r"|loading_bar",edit=True,progress=0)
 
 if __name__ == "__main__":
 
